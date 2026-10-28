@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { border-style: var(--border-style); }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body {
+    @apply bg-canvas text-text-primary font-sans;
+    background-image: var(--effect-canvas-image);
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  :focus-visible { outline: var(--focus-width) solid rgb(var(--color-accent)); outline-offset: var(--focus-offset); }
+}
+
+@layer components {
+  .surface { @apply bg-surface border border-border; backdrop-filter: var(--effect-surface-backdrop); }
+  .card { @apply surface rounded-card shadow-card; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-control px-3.5 py-2 text-sm font-medium transition
+      border border-border bg-surface text-text-primary hover:bg-surface-hover shadow-control;
+  }
+  .btn:active { box-shadow: var(--shadow-inset); }
+  .btn-primary { @apply bg-accent text-accent-foreground border-transparent hover:bg-accent-hover; }
+  .btn-ghost { @apply border-transparent bg-transparent shadow-none hover:bg-surface-hover; }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-sm font-medium transition
+      text-text-secondary hover:text-text-primary hover:bg-surface-hover;
+  }
+  .chip[aria-pressed="true"] { @apply bg-text-primary text-canvas hover:bg-text-primary hover:text-canvas; }
+  .icon-btn { @apply inline-flex h-9 w-9 items-center justify-center rounded-control text-text-secondary transition hover:bg-surface-hover hover:text-text-primary; }
+}
+
+.cover-grid {
+  background-image:
+    linear-gradient(rgb(var(--color-text-primary) / 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--color-text-primary) / 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .rise { animation: none; } }

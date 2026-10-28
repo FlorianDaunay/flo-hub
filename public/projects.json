@@ -1,0 +1,507 @@
+{
+  "user": "FlorianDaunay",
+  "generatedAt": "2026-10-28T14:38:08.521Z",
+  "projects": [
+    {
+      "name": "visualScience",
+      "title": "Visual Science",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/visualScience",
+      "homepage": "https://floriandaunay.github.io/visualScience/",
+      "category": "knowledge",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-28T12:59:09Z",
+      "version": null,
+      "screenshot": "shots/visualScience.jpg"
+    },
+    {
+      "name": "prez-fighter",
+      "title": "Prez Fighter",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/prez-fighter",
+      "homepage": "https://floriandaunay.github.io/prez-fighter/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-24T20:06:58Z",
+      "version": null,
+      "screenshot": "shots/prez-fighter.jpg"
+    },
+    {
+      "name": "bee-factory",
+      "title": "Bee Factory",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/bee-factory",
+      "homepage": "https://floriandaunay.github.io/bee-factory/",
+      "category": "other",
+      "platforms": [
+        "web",
+        "android"
+      ],
+      "downloads": [
+        {
+          "platform": "android",
+          "name": "bee-factory.apk",
+          "url": "https://github.com/FlorianDaunay/bee-factory/releases/download/v0.5.0/bee-factory.apk",
+          "size": 10069843
+        }
+      ],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-21T19:30:15Z",
+      "version": "v0.5.0",
+      "screenshot": "shots/bee-factory.jpg"
+    },
+    {
+      "name": "pokemon-battle",
+      "title": "Pokemon Battle",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/pokemon-battle",
+      "homepage": "https://floriandaunay.github.io/pokemon-battle/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-18T21:49:22Z",
+      "version": null,
+      "screenshot": "shots/pokemon-battle.jpg"
+    },
+    {
+      "name": "chess-analyzer",
+      "title": "Chess Analyzer",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/chess-analyzer",
+      "homepage": "https://floriandaunay.github.io/chess-analyzer/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-17T19:39:11Z",
+      "version": null,
+      "screenshot": "shots/chess-analyzer.jpg"
+    },
+    {
+      "name": "visualLaws",
+      "title": "Visual Laws",
+      "description": "website using free french gouv api to visualize laws, who vote them, when, there subject...",
+      "repoUrl": "https://github.com/FlorianDaunay/visualLaws",
+      "homepage": "https://floriandaunay.github.io/visualLaws/",
+      "category": "knowledge",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-16T19:29:24Z",
+      "version": null,
+      "screenshot": "shots/visualLaws.jpg"
+    },
+    {
+      "name": "code-blueprint",
+      "title": "Code Blueprint",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/code-blueprint",
+      "homepage": "https://floriandaunay.github.io/code-blueprint/",
+      "category": "devtools",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-14T18:05:16Z",
+      "version": null,
+      "screenshot": "shots/code-blueprint.jpg"
+    },
+    {
+      "name": "tech-rpg",
+      "title": "Tech Rpg",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/tech-rpg",
+      "homepage": "https://floriandaunay.github.io/tech-rpg/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-13T20:27:13Z",
+      "version": null,
+      "screenshot": "shots/tech-rpg.jpg"
+    },
+    {
+      "name": "pirate-card",
+      "title": "Pirate Card",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/pirate-card",
+      "homepage": "https://floriandaunay.github.io/pirate-card/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-07T13:46:33Z",
+      "version": null,
+      "screenshot": "shots/pirate-card.jpg"
+    },
+    {
+      "name": "small-world",
+      "title": "Small World",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/small-world",
+      "homepage": "https://floriandaunay.github.io/small-world/",
+      "category": "other",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-05T20:39:22Z",
+      "version": null,
+      "screenshot": "shots/small-world.jpg"
+    },
+    {
+      "name": "love-letter",
+      "title": "Love Letter",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/love-letter",
+      "homepage": "https://floriandaunay.github.io/love-letter/",
+      "category": "other",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-04T20:07:38Z",
+      "version": null,
+      "screenshot": "shots/love-letter.jpg"
+    },
+    {
+      "name": "lofi-studio",
+      "title": "Lofi Studio",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/lofi-studio",
+      "homepage": null,
+      "category": "media",
+      "platforms": [
+        "android"
+      ],
+      "downloads": [
+        {
+          "platform": "android",
+          "name": "lofi-studio-0.7.0.apk",
+          "url": "https://github.com/FlorianDaunay/lofi-studio/releases/download/v0.7.0/lofi-studio-0.7.0.apk",
+          "size": 22690461
+        }
+      ],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-10-03T15:25:39Z",
+      "version": "v0.7.0"
+    },
+    {
+      "name": "portus",
+      "title": "Portus",
+      "description": "open source gui docker manager",
+      "repoUrl": "https://github.com/FlorianDaunay/portus",
+      "homepage": null,
+      "category": "devtools",
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "downloads": [
+        {
+          "platform": "linux",
+          "name": "Portus-0.4.0-1.x86_64.rpm",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus-0.4.0-1.x86_64.rpm",
+          "size": 6561998
+        },
+        {
+          "platform": "linux",
+          "name": "Portus_0.4.0_amd64.AppImage",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus_0.4.0_amd64.AppImage",
+          "size": 84433400
+        },
+        {
+          "platform": "linux",
+          "name": "Portus_0.4.0_amd64.deb",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus_0.4.0_amd64.deb",
+          "size": 6560918
+        },
+        {
+          "platform": "macos",
+          "name": "Portus_0.4.0_universal.dmg",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus_0.4.0_universal.dmg",
+          "size": 10190653
+        },
+        {
+          "platform": "windows",
+          "name": "Portus_0.4.0_x64-setup.exe",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus_0.4.0_x64-setup.exe",
+          "size": 3557319
+        },
+        {
+          "platform": "windows",
+          "name": "Portus_0.4.0_x64_en-US.msi",
+          "url": "https://github.com/FlorianDaunay/portus/releases/download/v0.4.0/Portus_0.4.0_x64_en-US.msi",
+          "size": 5152768
+        }
+      ],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-09-25T20:34:57Z",
+      "version": "v0.4.0"
+    },
+    {
+      "name": "horizon-shift",
+      "title": "Horizon Shift",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/horizon-shift",
+      "homepage": "https://floriandaunay.github.io/horizon-shift/",
+      "category": "other",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-09-24T21:46:57Z",
+      "version": null,
+      "screenshot": "shots/horizon-shift.jpg"
+    },
+    {
+      "name": "SandBlox",
+      "title": "Sand Blox",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/SandBlox",
+      "homepage": "https://floriandaunay.github.io/SandBlox/",
+      "category": "other",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-05-24T18:24:28Z",
+      "version": null,
+      "screenshot": "shots/SandBlox.jpg"
+    },
+    {
+      "name": "ZipGame",
+      "title": "Zip Game",
+      "description": "clone of Linkedin game : Zip",
+      "repoUrl": "https://github.com/FlorianDaunay/ZipGame",
+      "homepage": "https://floriandaunay.github.io/ZipGame/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2026-03-16T22:04:36Z",
+      "version": null,
+      "screenshot": "shots/ZipGame.jpg"
+    },
+    {
+      "name": "Excel-Analysis",
+      "title": "Excel Analysis",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/Excel-Analysis",
+      "homepage": "https://floriandaunay.github.io/Excel-Analysis/",
+      "category": "finance",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "TypeScript",
+      "stars": 0,
+      "pushedAt": "2025-09-20T00:17:54Z",
+      "version": null,
+      "screenshot": "shots/Excel-Analysis.jpg"
+    },
+    {
+      "name": "SPFinder",
+      "title": "SPFinder",
+      "description": "web-based tool to visualize structured financial products payoff and greeks",
+      "repoUrl": "https://github.com/FlorianDaunay/SPFinder",
+      "homepage": "https://floriandaunay.github.io/SPFinder/",
+      "category": "finance",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [
+        "exotic-option",
+        "finance",
+        "greeks",
+        "payoff",
+        "quant-finance"
+      ],
+      "language": "TypeScript",
+      "stars": 1,
+      "pushedAt": "2025-08-14T23:13:16Z",
+      "version": null,
+      "screenshot": "shots/SPFinder.jpg"
+    },
+    {
+      "name": "Grabbit",
+      "title": "Grabbit",
+      "description": "web app to store, tag, search, and retrieve your favorite code snippets",
+      "repoUrl": "https://github.com/FlorianDaunay/Grabbit",
+      "homepage": "https://floriandaunay.github.io/Grabbit/",
+      "category": "devtools",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [
+        "code",
+        "firebase",
+        "snippet",
+        "snippets",
+        "storage"
+      ],
+      "language": "TypeScript",
+      "stars": 2,
+      "pushedAt": "2025-07-29T19:42:44Z",
+      "version": null,
+      "screenshot": "shots/Grabbit.jpg"
+    },
+    {
+      "name": "periodic-table",
+      "title": "Periodic Table",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/periodic-table",
+      "homepage": "https://floriandaunay.github.io/periodic-table/",
+      "category": "knowledge",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2025-04-29T14:39:19Z",
+      "version": null,
+      "screenshot": "shots/periodic-table.jpg"
+    },
+    {
+      "name": "Not-Shazam",
+      "title": "Not Shazam",
+      "description": "music recognition app that identifies songs by analyzing audio snippets and matching them to a vast music database.",
+      "repoUrl": "https://github.com/FlorianDaunay/Not-Shazam",
+      "homepage": "https://floriandaunay.github.io/Not-Shazam/",
+      "category": "media",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2025-03-07T20:47:55Z",
+      "version": null,
+      "screenshot": "shots/Not-Shazam.jpg"
+    },
+    {
+      "name": "LeCompteEstBon",
+      "title": "Le Compte Est Bon",
+      "description": "",
+      "repoUrl": "https://github.com/FlorianDaunay/LeCompteEstBon",
+      "homepage": "https://floriandaunay.github.io/LeCompteEstBon/",
+      "category": "other",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2025-03-01T02:15:06Z",
+      "version": null,
+      "screenshot": "shots/LeCompteEstBon.jpg"
+    },
+    {
+      "name": "QueensGame",
+      "title": "Queens Game",
+      "description": "homemade game inspired by linkedin game : queens",
+      "repoUrl": "https://github.com/FlorianDaunay/QueensGame",
+      "homepage": "https://floriandaunay.github.io/QueensGame/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [
+        "game",
+        "linkedin",
+        "puzzle",
+        "queens"
+      ],
+      "language": "JavaScript",
+      "stars": 16,
+      "pushedAt": "2024-07-30T17:01:39Z",
+      "version": null,
+      "screenshot": "shots/QueensGame.jpg"
+    },
+    {
+      "name": "Donut-Disaster-at-Bikini-Crampton",
+      "title": "Donut Disaster At Bikini Crampton",
+      "description": "Swarm like game, with Spongebob character and many donuts",
+      "repoUrl": "https://github.com/FlorianDaunay/Donut-Disaster-at-Bikini-Crampton",
+      "homepage": "https://floriandaunay.github.io/Donut-Disaster-at-Bikini-Crampton/",
+      "category": "games",
+      "platforms": [
+        "web"
+      ],
+      "downloads": [],
+      "topics": [],
+      "language": "JavaScript",
+      "stars": 0,
+      "pushedAt": "2024-07-26T18:10:33Z",
+      "version": null,
+      "screenshot": "shots/Donut-Disaster-at-Bikini-Crampton.jpg"
+    }
+  ]
+}
