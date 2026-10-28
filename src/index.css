@@ -25,7 +25,7 @@
   .btn-primary { @apply bg-accent text-accent-foreground border-transparent hover:bg-accent-hover; }
   .btn-ghost { @apply border-transparent bg-transparent shadow-none hover:bg-surface-hover; }
   .chip {
-    @apply inline-flex items-center gap-1.5 rounded-pill px-3 py-1.5 text-sm font-medium transition
+    @apply inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-pill px-3 py-1.5 text-sm font-medium transition
       text-text-secondary hover:text-text-primary hover:bg-surface-hover;
   }
   .chip[aria-pressed="true"] { @apply bg-text-primary text-canvas hover:bg-text-primary hover:text-canvas; }

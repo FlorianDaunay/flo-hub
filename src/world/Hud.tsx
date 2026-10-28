@@ -73,7 +73,8 @@ function FocusPanel({ touch }: { touch: boolean }) {
   if (!lot) return null;
   const p = lot.project;
   return (
-    <div key={p.name} className={`${glass} rise pointer-events-auto absolute bottom-6 left-1/2 w-[min(92vw,30rem)] -translate-x-1/2 p-4 ${touch ? "bottom-44" : ""}`}>
+    <div className={`absolute inset-x-0 flex justify-center px-3 ${touch ? "bottom-44" : "bottom-8"}`}>
+    <div key={p.name} className={`${glass} rise pointer-events-auto w-full max-w-[30rem] p-4`}>
       <div className="flex items-center gap-2 text-xs text-white/60">
         <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_COLOR[p.category] }} />
         {category(p.category)}
@@ -103,6 +104,7 @@ function FocusPanel({ touch }: { touch: boolean }) {
         </a>
       </div>
       {locked && <p className="mt-2 text-[11px] text-white/40">Esc → {t("back").toLowerCase()} · clic</p>}
+    </div>
     </div>
   );
 }
@@ -136,9 +138,9 @@ export default function Hud({ layout, onExit, touch }: { layout: CityLayout; onE
         <button onClick={onExit} className={`${glass} pointer-events-auto inline-flex items-center gap-2 px-3 py-2 text-sm hover:bg-white/10`}>
           <GridIcon /> <span className="hidden sm:inline">{t("clean")}</span>
         </button>
-        <nav className={`${glass} pointer-events-auto mx-auto flex overflow-hidden p-1 text-sm`}>
+        <nav className={`${glass} pointer-events-auto mx-auto flex min-w-0 overflow-x-auto p-1 text-sm`}>
           {(["plaza", ...layout.streets.map((s) => s.district)] as const).map((d) => (
-            <button key={d} onClick={() => jump(d)} className="rounded-lg px-3 py-1.5 text-white/75 hover:bg-white/10 hover:text-white">
+            <button key={d} onClick={() => jump(d)} className="shrink-0 rounded-lg px-2.5 py-1.5 text-white/75 hover:bg-white/10 hover:text-white sm:px-3">
               {d === "plaza" ? "◎" : DISTRICT_NAME[d]}
             </button>
           ))}
