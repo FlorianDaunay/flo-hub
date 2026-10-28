@@ -77,7 +77,7 @@ function Ground() {
           "#include <roughnessmap_fragment>",
           `float roughnessFactor = roughness;
           float puddle = gn(vXZ * 0.18) * 0.65 + gn(vXZ * 0.7) * 0.35;
-          roughnessFactor = mix(0.06, 0.55, smoothstep(0.35, 0.7, puddle));`
+          roughnessFactor = mix(0.1, 0.55, smoothstep(0.35, 0.7, puddle));`
         );
     };
     return m;
@@ -126,7 +126,7 @@ function Streets({ layout }: { layout: CityLayout }) {
           const [lx, lz] = streetPoint(st.angle, a, s * (STREET_HALF_WIDTH + 0.6));
           slabsList.push({ p: [lx, 3.2, lz], s: [0.14, 6.4, 0.14], rotY: rot, dark: true });
           const [hx, hz] = streetPoint(st.angle, a, s * (STREET_HALF_WIDTH - 0.4));
-          bars.push({ p: [hx, 6.3, hz], s: [1.8, 0.1, 0.45], rotY: rot + Math.PI / 2, color: "#ffb062", boost: 4 });
+          bars.push({ p: [hx, 6.3, hz], s: [1.8, 0.1, 0.45], rotY: rot, color: "#ffb062", boost: 4 });
           glows.push({ x: hx, z: hz, w: 10, l: 10, rotY: 0, color: "#ff9a4a", strength: 0.2 });
         }
     }
@@ -338,7 +338,7 @@ function Market() {
     }
     for (const [y, w] of [[9.2, STREET_HALF_WIDTH * 2 + 1.5], [7.6, STREET_HALF_WIDTH * 2 - 1]] as const) {
       const [gx, gz] = streetPoint(MARKET_ANGLE, end, 0);
-      bars.push({ p: [gx, y, gz], s: [w, 0.45, 0.5], rotY: rot + Math.PI / 2, color: "#ff2a3a", boost: 2.2 });
+      bars.push({ p: [gx, y, gz], s: [w, 0.45, 0.5], rotY: rot, color: "#ff2a3a", boost: 2.2 });
     }
     const [tx, tz] = streetPoint(MARKET_ANGLE, end - 4, 0);
     glows.push({ x: tx, z: tz, w: 12, l: 10, rotY: 0, color: "#ff2a3a", strength: 0.22 });

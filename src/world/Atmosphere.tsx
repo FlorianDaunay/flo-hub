@@ -20,7 +20,6 @@ export function NeonEnvironment() {
       <color attach="background" args={["#0a0710"]} />
       <Lightformer form="rect" intensity={2.2} color="#ff2bd6" position={[-20, 4, -10]} scale={[12, 3, 1]} target={[0, 0, 0]} />
       <Lightformer form="rect" intensity={2.4} color="#2bd0ff" position={[20, 6, 8]} scale={[14, 3, 1]} target={[0, 0, 0]} />
-      <Lightformer form="rect" intensity={0.7} color="#ff8a3d" position={[0, 8, 30]} scale={[30, 4, 1]} target={[0, 0, 0]} />
       <Lightformer form="ring" intensity={0.8} color="#7c5cff" position={[0, 30, 0]} scale={20} target={[0, 0, 0]} />
     </Environment>
   );
