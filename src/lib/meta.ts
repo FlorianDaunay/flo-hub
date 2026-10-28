@@ -11,6 +11,9 @@ export const CATEGORY_COLOR: Record<Category, string> = {
   other: "#C9D1E3",
 };
 
+/** Projects shown in the "Selected" section, in order (falls back to the most recent ones). */
+export const FEATURED = ["visualLaws", "chess-analyzer", "pirate-card"];
+
 export function formatSize(bytes: number): string {
   if (bytes > 1e9) return `${(bytes / 1e9).toFixed(1)} GB`;
   if (bytes > 1e6) return `${Math.round(bytes / 1e6)} MB`;

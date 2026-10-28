@@ -42,3 +42,54 @@
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 @media (prefers-reduced-motion: reduce) { .rise { animation: none; } }
+
+/* ——— Living background: drifting aurora blobs + film grain ——— */
+.aurora { position: fixed; inset: -20vmax; z-index: -1; pointer-events: none; filter: blur(70px) saturate(1.2); opacity: 0.55; }
+[data-scheme="dark"] .aurora { opacity: 0.35; }
+.aurora span { position: absolute; width: 46vmax; height: 46vmax; border-radius: 50%; mix-blend-mode: normal; animation: drift 38s ease-in-out infinite alternate; }
+.aurora span:nth-child(1) { left: 8%; top: 4%; background: radial-gradient(circle, #ff3dcb55, transparent 65%); }
+.aurora span:nth-child(2) { right: 4%; top: 12%; background: radial-gradient(circle, #3da9ff55, transparent 65%); animation-duration: 46s; animation-delay: -12s; }
+.aurora span:nth-child(3) { left: 30%; top: 46%; background: radial-gradient(circle, #2ef2a044, transparent 65%); animation-duration: 52s; animation-delay: -24s; }
+.aurora span:nth-child(4) { right: 22%; bottom: 0; background: radial-gradient(circle, #ffc23d40, transparent 65%); animation-duration: 60s; animation-delay: -6s; }
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6vmax, -4vmax) scale(1.12); }
+  100% { transform: translate(-5vmax, 5vmax) scale(0.94); }
+}
+.grain { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ——— Rotating word in the hero ——— */
+.word-swap { display: inline-grid; vertical-align: bottom; }
+.word-swap > span { grid-area: 1 / 1; opacity: 0; transform: translateY(0.35em); transition: opacity 0.6s, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.word-swap > span[data-on="true"] { opacity: 1; transform: none; }
+
+/* ——— Cards: tilt + cursor spotlight + category glow, driven by CSS vars set on pointer move ——— */
+.tile {
+  --c: 120 120 140; --mx: 50%; --my: 0%; --rx: 0deg; --ry: 0deg;
+  position: relative; transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s;
+}
+.tile::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgb(var(--c) / 0.9), transparent 45%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.3s;
+}
+.tile::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(500px circle at var(--mx) var(--my), rgb(var(--c) / 0.10), transparent 40%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.tile:hover { box-shadow: 0 24px 60px -24px rgb(var(--c) / 0.55), var(--shadow-card); }
+.tile:hover::before, .tile:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .tile { transform: none !important; } .aurora span { animation: none; } }
+
+/* Browser-window frame around screenshots; the shot pans down slowly on hover. */
+.frame { @apply overflow-hidden rounded-tile border border-border bg-canvas; }
+.frame-bar { @apply flex h-7 items-center gap-1.5 border-b border-border bg-surface-hover px-3; }
+.frame-bar i { @apply h-2 w-2 rounded-full bg-text-muted/40; }
+.shot { transition: object-position 6s ease-in-out, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); object-position: 50% 0%; }
+.tile:hover .shot { object-position: 50% 100%; transform: scale(1.02); }
+
+.marquee { mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
