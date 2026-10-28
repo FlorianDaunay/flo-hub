@@ -3,6 +3,8 @@
 import { CATEGORIES, type Category, type Platform, type Project } from "@/lib/classify";
 
 export type District = "web" | "android" | "desktop";
+/** Streets: the three districts plus a decorative night market. */
+export type StreetKind = District | "market";
 
 export const PLAZA_RADIUS = 16;
 export const STREET_HALF_WIDTH = 7;
@@ -30,6 +32,10 @@ export interface Lot {
   /** Rotation (Y) so the facade faces the street. */
   rotY: number;
   height: number;
+  /** Street heading, distance along it and side (−1 left, 1 right). */
+  angle: number;
+  along: number;
+  side: number;
 }
 
 export interface CategorySign {
@@ -41,7 +47,7 @@ export interface CategorySign {
 }
 
 export interface StreetInfo {
-  district: District;
+  district: StreetKind;
   angle: number;
   length: number;
 }
@@ -98,10 +104,22 @@ export function layoutCity(projects: Project[]): CityLayout {
       // Facade (local +Z) turned toward the street axis.
       const rotY = -angle + (side > 0 ? -Math.PI / 2 : Math.PI / 2);
       const height = 22 + Math.round(hash01(project.name) * 38) + Math.min(project.stars, 20);
-      lots.push({ project, district, x, z, rotY, height });
+      lots.push({ project, district, x, z, rotY, height, angle, along, side });
       slot++;
     }
     streets.push({ district, angle, length: PLAZA_RADIUS + 8 + Math.ceil(slot / 2) * LOT_SPACING + 12 });
   }
+  streets.push({ district: "market", angle: MARKET_ANGLE, length: MARKET_LENGTH });
   return { lots, signs, streets };
+}
+
+export const MARKET_ANGLE = Math.PI;
+export const MARKET_LENGTH = 72;
+
+/** Where to stand to look at a lot: on the street, a little off-axis, facing the facade. */
+export function viewpoint(lot: Lot): { x: number; z: number; heading: number } {
+  const [x, z] = streetPoint(lot.angle, lot.along, -lot.side * 2.5);
+  // Camera yaw looking toward +side: forward = (-sin yaw, -cos yaw).
+  const [tx, tz] = streetPoint(lot.angle, lot.along, lot.side * LOT_OFFSET);
+  return { x, z, heading: Math.atan2(-(tx - x), -(tz - z)) };
 }

@@ -3,7 +3,7 @@ import * as THREE from "three";
 
 let windowsTex: THREE.CanvasTexture | null = null;
 
-/** Tileable facade: dark glass with random warm/cool lit windows. Used as emissive map. */
+/** Tileable facade: mostly dark, sparse amber windows, a few neon-tinted ones. Used as emissive map. */
 export function windowsTexture(): THREE.CanvasTexture {
   if (windowsTex) return windowsTex;
   const w = 128;
@@ -14,17 +14,17 @@ export function windowsTexture(): THREE.CanvasTexture {
   const g = c.getContext("2d")!;
   g.fillStyle = "#000";
   g.fillRect(0, 0, w, h);
-  let seed = 7;
-  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const cols = 8;
   const rows = 32;
   for (let y = 0; y < rows; y++)
     for (let x = 0; x < cols; x++) {
       const r = rnd();
-      if (r < 0.62) continue;
-      const warm = rnd() < 0.55;
-      const a = 0.35 + rnd() * 0.65;
-      g.fillStyle = warm ? `rgba(255,196,128,${a})` : `rgba(150,200,255,${a})`;
+      if (r < 0.74) continue;
+      const k = rnd();
+      const a = 0.25 + rnd() * 0.75;
+      g.fillStyle = k < 0.68 ? `rgba(255,170,90,${a})` : k < 0.84 ? `rgba(120,210,255,${a})` : k < 0.93 ? `rgba(255,90,200,${a})` : `rgba(255,236,210,${a})`;
       g.fillRect(x * (w / cols) + 3, y * (h / rows) + 2, w / cols - 6, h / rows - 4);
     }
   windowsTex = new THREE.CanvasTexture(c);
@@ -34,36 +34,7 @@ export function windowsTexture(): THREE.CanvasTexture {
   return windowsTex;
 }
 
-/** Neon text sign (white glyphs, transparent background); tint it with the material colour. */
-export function labelTexture(text: string, opts: { font?: string; size?: number; pad?: number; sub?: string } = {}) {
-  const size = opts.size ?? 96;
-  const pad = opts.pad ?? 24;
-  const font = `600 ${size}px ${opts.font ?? "Inter, system-ui, sans-serif"}`;
-  const subFont = `500 ${Math.round(size * 0.38)}px "JetBrains Mono", monospace`;
-  const c = document.createElement("canvas");
-  const g = c.getContext("2d")!;
-  g.font = font;
-  const tw = g.measureText(text).width;
-  g.font = subFont;
-  const sw = opts.sub ? g.measureText(opts.sub).width : 0;
-  c.width = Math.ceil(Math.max(tw, sw) + pad * 2);
-  c.height = Math.ceil(size * (opts.sub ? 1.75 : 1.25) + pad * 2);
-  g.textBaseline = "top";
-  g.fillStyle = "#fff";
-  g.font = font;
-  g.fillText(text, (c.width - tw) / 2, pad);
-  if (opts.sub) {
-    g.font = subFont;
-    g.globalAlpha = 0.75;
-    g.fillText(opts.sub, (c.width - sw) / 2, pad + size * 1.2);
-  }
-  const tex = new THREE.CanvasTexture(c);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
-  return { tex, aspect: c.width / c.height };
-}
-
-/** Soft radial glow sprite for lamp halos. */
+/** Soft radial glow, for light pools and haze sprites. */
 let glowTex: THREE.CanvasTexture | null = null;
 export function glowTexture() {
   if (glowTex) return glowTex;
@@ -72,10 +43,34 @@ export function glowTexture() {
   const g = c.getContext("2d")!;
   const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
   grad.addColorStop(0, "rgba(255,255,255,1)");
-  grad.addColorStop(0.25, "rgba(255,255,255,0.35)");
+  grad.addColorStop(0.3, "rgba(255,255,255,0.35)");
   grad.addColorStop(1, "rgba(255,255,255,0)");
   g.fillStyle = grad;
   g.fillRect(0, 0, 64, 64);
   glowTex = new THREE.CanvasTexture(c);
   return glowTex;
+}
+
+/** Long soft streak (bright core fading along its length): neon reflection on wet asphalt. */
+let streakTex: THREE.CanvasTexture | null = null;
+export function streakTexture() {
+  if (streakTex) return streakTex;
+  const c = document.createElement("canvas");
+  c.width = 32;
+  c.height = 128;
+  const g = c.getContext("2d")!;
+  const img = g.createImageData(32, 128);
+  for (let y = 0; y < 128; y++)
+    for (let x = 0; x < 32; x++) {
+      const dx = Math.abs(x - 15.5) / 16;
+      const fy = y / 127;
+      // Strong near the facade (y=0 → texture v=1 after flip), dissolving toward the viewer.
+      const a = Math.max(0, 1 - dx * dx * 1.6) ** 2 * (1 - fy) ** 1.6 * (0.75 + 0.25 * Math.sin(y * 0.9 + x * 0.3));
+      const i = (y * 32 + x) * 4;
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = 255;
+      img.data[i + 3] = Math.round(a * 255);
+    }
+  g.putImageData(img, 0, 0);
+  streakTex = new THREE.CanvasTexture(c);
+  return streakTex;
 }

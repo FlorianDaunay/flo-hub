@@ -83,3 +83,8 @@ describe("mergeLive", () => {
     expect(app.platforms).toEqual(["android"]);
   });
 });
+
+describe("overrides", () => {
+  it("bee-factory is a game", () => expect(categorize(repo({ name: "bee-factory" }))).toBe("games"));
+  it("explicit topic beats override", () => expect(categorize(repo({ name: "bee-factory", topics: ["flohub-media"] }))).toBe("media"));
+});

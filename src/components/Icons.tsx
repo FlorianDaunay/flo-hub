@@ -72,6 +72,22 @@ export const StarIcon = (p: P) => (
   </svg>
 );
 
+export const MapIcon = (p: P) => (
+  <svg {...base(p)}>
+    <path d="m9 4-5 2v14l5-2 6 2 5-2V4l-5 2-6-2Zm0 0v14m6-12v14" />
+  </svg>
+);
+export const SoundIcon = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M4 10v4h4l5 4V6L8 10H4Zm12.5-1.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" />
+  </svg>
+);
+export const MuteIcon = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M4 10v4h4l5 4V6L8 10H4Zm12 0 5 5m0-5-5 5" />
+  </svg>
+);
+
 export const PLATFORM_ICON: Record<Platform, (p: P) => JSX.Element> = {
   web: GlobeIcon,
   android: AndroidIcon,

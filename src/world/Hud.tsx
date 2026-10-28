@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useLang, useT } from "@/lib/i18n";
 import { CATEGORY_COLOR, formatSize } from "@/lib/meta";
-import { ArrowIcon, DownloadIcon, GithubIcon, GridIcon, PLATFORM_ICON } from "@/components/Icons";
-import { PLAZA_RADIUS, streetPoint, type CityLayout, type District } from "./layout";
+import { ArrowIcon, DownloadIcon, GithubIcon, GridIcon, MapIcon, MuteIcon, PLATFORM_ICON, SoundIcon } from "@/components/Icons";
+import type { CityLayout } from "./layout";
+import { FullMap, Minimap } from "./CityMap";
 import { touchInput, useWorld } from "./store";
 
-const DISTRICT_NAME: Record<District, string> = { web: "Web", android: "Android", desktop: "Desktop" };
-const glass = "rounded-xl border border-white/10 bg-[#0b0e1a]/70 text-white backdrop-blur-md";
+const glass = "rounded-xl border border-white/10 bg-[#0b0e1a]/65 text-white backdrop-blur-md";
 
 function Joystick() {
   const base = useRef<HTMLDivElement>(null);
@@ -115,58 +115,68 @@ export default function Hud({ layout, onExit, touch }: { layout: CityLayout; onE
   const locked = useWorld((s) => s.locked);
   const quality = useWorld((s) => s.quality);
   const setQuality = useWorld((s) => s.setQuality);
-  const goTo = useWorld((s) => s.goTo);
+  const sound = useWorld((s) => s.sound);
+  const setSound = useWorld((s) => s.setSound);
+  const mapOpen = useWorld((s) => s.mapOpen);
+  const setMapOpen = useWorld((s) => s.setMapOpen);
   const [hint, setHint] = useState(true);
 
   useEffect(() => {
-    const id = setTimeout(() => setHint(false), 9000);
+    const id = setTimeout(() => setHint(false), 10000);
     return () => clearTimeout(id);
   }, []);
 
-  const jump = (d: District | "plaza") => {
-    if (d === "plaza") return goTo(0, PLAZA_RADIUS - 4, 0);
-    const s = layout.streets.find((x) => x.district === d)!;
-    const [x, z] = streetPoint(s.angle, PLAZA_RADIUS + 1, 0);
-    goTo(x, z, -s.angle);
-  };
+  const btn = "grid h-9 w-9 place-items-center rounded-lg text-white/75 hover:bg-white/10 hover:text-white";
 
   return (
     <div className="pointer-events-none absolute inset-0 font-sans">
-      {touch && <TouchLook />}
+      {touch && !mapOpen && <TouchLook />}
 
       <div className="absolute inset-x-0 top-0 flex items-start gap-2 p-3 sm:p-4">
-        <button onClick={onExit} className={`${glass} pointer-events-auto inline-flex items-center gap-2 px-3 py-2 text-sm hover:bg-white/10`}>
+        <button onClick={onExit} className={`${glass} pointer-events-auto inline-flex h-11 items-center gap-2 px-3 text-sm hover:bg-white/10`}>
           <GridIcon /> <span className="hidden sm:inline">{t("clean")}</span>
         </button>
-        <nav className={`${glass} pointer-events-auto mx-auto flex min-w-0 overflow-x-auto p-1 text-sm`}>
-          {(["plaza", ...layout.streets.map((s) => s.district)] as const).map((d) => (
-            <button key={d} onClick={() => jump(d)} className="shrink-0 rounded-lg px-2.5 py-1.5 text-white/75 hover:bg-white/10 hover:text-white sm:px-3">
-              {d === "plaza" ? "◎" : DISTRICT_NAME[d]}
-            </button>
-          ))}
-        </nav>
-        <div className={`${glass} pointer-events-auto flex p-1 font-mono text-xs`}>
-          <button className="rounded-lg px-2.5 py-1.5 uppercase text-white/75 hover:bg-white/10" onClick={() => setLang(lang === "fr" ? "en" : "fr")}>
+        <div className={`${glass} pointer-events-auto ml-auto flex items-center p-1`}>
+          <button
+            className={btn}
+            onClick={() => {
+              document.exitPointerLock?.();
+              setMapOpen(true);
+            }}
+            aria-label={t("map")}
+            title={`${t("map")} (M)`}
+          >
+            <MapIcon />
+          </button>
+          <button className={btn} onClick={() => setSound(!sound)} aria-label={t("sound")} title={t("sound")}>
+            {sound ? <SoundIcon /> : <MuteIcon />}
+          </button>
+          <button className={`${btn} font-mono text-xs uppercase`} onClick={() => setLang(lang === "fr" ? "en" : "fr")}>
             {lang === "fr" ? "en" : "fr"}
           </button>
-          <button className="rounded-lg px-2.5 py-1.5 text-white/75 hover:bg-white/10" onClick={() => setQuality(quality === "high" ? "low" : "high")} title="Quality">
+          <button className={`${btn} font-mono text-[11px]`} onClick={() => setQuality(quality === "high" ? "low" : "high")} title="Quality">
             {quality === "high" ? "HQ" : "LQ"}
           </button>
         </div>
       </div>
 
-      {!touch && locked && <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70" />}
+      <div className={`absolute right-3 sm:right-4 ${touch ? "top-[4.25rem]" : "bottom-4"}`}>
+        <Minimap layout={layout} />
+      </div>
 
-      {!touch && !locked && (
-        <div className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 text-center">
-          <p className={`${glass} px-4 py-2 text-sm`}>{t("enter")} · clic</p>
+      {!touch && locked && <div className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 shadow-[0_0_6px_rgba(255,255,255,0.8)]" />}
+
+      {!touch && !locked && !mapOpen && (
+        <div className="absolute inset-x-0 top-[40%] flex justify-center">
+          <p className={`${glass} rounded-full px-5 py-2 text-sm tracking-wide`}>{t("enter")} · clic</p>
         </div>
       )}
 
-      {hint && <p className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-white/50">{touch ? t("hintTouch") : t("hint")}</p>}
+      {hint && !mapOpen && <p className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px] text-white/45">{touch ? t("hintTouch") : t("hint")}</p>}
 
-      <FocusPanel touch={touch} />
-      {touch && <Joystick />}
+      {!mapOpen && <FocusPanel touch={touch} />}
+      {touch && !mapOpen && <Joystick />}
+      <FullMap layout={layout} />
     </div>
   );
 }

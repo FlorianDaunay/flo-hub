@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { LOT_SIZE, PLAZA_RADIUS, STREET_HALF_WIDTH, type CityLayout, type Lot } from "./layout";
-import { touchInput, useWorld } from "./store";
+import { playerState, touchInput, useWorld } from "./store";
 
 const EYE = 1.7;
 const WALK = 6;
@@ -17,7 +17,7 @@ function walkable(layout: CityLayout, x: number, z: number) {
     const dz = -Math.cos(s.angle);
     const along = x * dx + z * dz;
     const side = -x * dz + z * dx;
-    return along > 0 && along < s.length && Math.abs(side) < STREET_WALK;
+    return along > 0 && along < s.length && Math.abs(side) < (s.district === "market" ? STREET_HALF_WIDTH - 0.2 : STREET_WALK);
   });
 }
 
@@ -36,6 +36,11 @@ export default function Player({ layout }: { layout: CityLayout }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.type === "keydown") keys.current.add(e.code);
       else keys.current.delete(e.code);
+      if (e.type === "keydown" && e.code === "KeyM") {
+        const st = useWorld.getState();
+        if (!st.mapOpen) document.exitPointerLock?.();
+        st.setMapOpen(!st.mapOpen);
+      }
       if (e.type === "keydown" && e.code === "KeyE") {
         const lot = useWorld.getState().focused;
         const url = lot?.project.homepage ?? lot?.project.downloads[0]?.url ?? lot?.project.repoUrl;
@@ -81,7 +86,7 @@ export default function Player({ layout }: { layout: CityLayout }) {
     look.current.pitch = Math.max(-1.2, Math.min(1.2, look.current.pitch - touchInput.lookY * 0.005));
     touchInput.lookX = touchInput.lookY = 0;
 
-    const k = keys.current;
+    const k = st.mapOpen ? new Set<string>() : keys.current;
     // Physical key codes: ZQSD on AZERTY and WASD on QWERTY are the same codes.
     let f = (k.has("KeyW") || k.has("ArrowUp") ? 1 : 0) - (k.has("KeyS") || k.has("ArrowDown") ? 1 : 0);
     let r = (k.has("KeyD") || k.has("ArrowRight") ? 1 : 0) - (k.has("KeyA") || k.has("ArrowLeft") ? 1 : 0);
@@ -108,6 +113,9 @@ export default function Player({ layout }: { layout: CityLayout }) {
       bob.current += dt * speed * 1.6;
     }
 
+    playerState.x = pos.current.x;
+    playerState.z = pos.current.z;
+    playerState.yaw = look.current.yaw;
     camera.position.set(pos.current.x, EYE + Math.sin(bob.current) * 0.04, pos.current.z);
     camera.rotation.set(look.current.pitch, look.current.yaw, 0);
 

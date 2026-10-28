@@ -88,6 +88,11 @@ function tokens(text: string): string[] {
     .filter(Boolean);
 }
 
+/** Hub-side corrections for repos whose metadata is not explicit enough (a repo topic still wins). */
+export const CATEGORY_OVERRIDES: Record<string, Category> = {
+  "bee-factory": "games",
+};
+
 export function categorize(repo: Pick<GhRepo, "name" | "description" | "topics">): Category {
   const topics = (repo.topics ?? []).map((t) => t.toLowerCase());
   // Explicit "flohub-<category>" topic wins.
@@ -104,6 +109,8 @@ export function categorize(repo: Pick<GhRepo, "name" | "description" | "topics">
     }
     return best;
   };
+  const override = CATEGORY_OVERRIDES[repo.name];
+  if (override) return override;
   const fromTopics = score(topics.flatMap((t) => [t, ...t.split("-")]));
   if (fromTopics !== "other") return fromTopics;
   return score(tokens(`${repo.name} ${repo.description ?? ""}`));
