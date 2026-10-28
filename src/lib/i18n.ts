@@ -7,7 +7,7 @@ export type Lang = "fr" | "en";
 const dict = {
   fr: {
     tagline: "Projets web, mobile et desktop.",
-    lead: "Je fabrique des",
+    lead: "Je conçois et je code",
     tail: "pour le web, Android et desktop.",
     selected: "Sélection",
     allProjects: "Tous les projets",
@@ -34,7 +34,7 @@ const dict = {
   },
   en: {
     tagline: "Web, mobile and desktop projects.",
-    lead: "I build",
+    lead: "I design and build",
     tail: "for the web, Android and desktop.",
     selected: "Selected",
     allProjects: "All projects",
@@ -65,8 +65,8 @@ export type Key = keyof (typeof dict)["fr"];
 
 /** Rotating word of the hero. */
 export const HERO_WORDS: Record<Lang, string[]> = {
-  fr: ["jeux", "outils", "visualisations", "applis"],
-  en: ["games", "tools", "visualisations", "apps"],
+  fr: ["des jeux", "des applis web", "des dataviz", "des apps Android", "des mondes 3D"],
+  en: ["games", "web apps", "data visualisations", "Android apps", "3D worlds"],
 };
 
 const categoryNames: Record<Lang, Record<Category, string>> = {

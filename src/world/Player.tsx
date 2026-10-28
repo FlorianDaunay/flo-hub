@@ -77,7 +77,7 @@ export default function Player({ layout }: { layout: CityLayout }) {
     if (st.teleport) {
       pos.current = { x: st.teleport.x, z: st.teleport.z };
       look.current.yaw = st.teleport.heading;
-      look.current.pitch = 0.08;
+      look.current.pitch = st.teleport.pitch ?? 0.08;
       useWorld.setState({ teleport: null });
     }
 

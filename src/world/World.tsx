@@ -15,6 +15,7 @@ import Signs from "./Signs";
 import { useWorld } from "./store";
 import Towers, { useScreenAtlas } from "./Towers";
 import Traffic from "./Traffic";
+import { uDetail } from "./materials";
 
 /** Dev only: exposes renderer stats to the console as window.__gl. */
 function DevStats() {
@@ -62,6 +63,7 @@ export default function World({ onExit }: { onExit: () => void }) {
   const setQuality = useWorld((s) => s.setQuality);
   const [dpr, setDpr] = useState(quality === "high" ? Math.min(devicePixelRatio, 1.5) : Math.min(devicePixelRatio, 1));
   useSoundtrack();
+  useEffect(() => void (uDetail.value = quality === "high" ? 1 : 0), [quality]);
 
   return (
     <div className="fixed inset-0 select-none bg-[#07050a]">

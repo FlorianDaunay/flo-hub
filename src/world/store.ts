@@ -7,13 +7,13 @@ interface WorldState {
   /** Lot the player is looking at / standing in front of. */
   focused: Lot | null;
   /** Requested teleport: position + heading. Consumed by the player. */
-  teleport: { x: number; z: number; heading: number } | null;
+  teleport: { x: number; z: number; heading: number; pitch?: number } | null;
   locked: boolean;
   quality: Quality;
   sound: boolean;
   mapOpen: boolean;
   setFocused: (lot: Lot | null) => void;
-  goTo: (x: number, z: number, heading: number) => void;
+  goTo: (x: number, z: number, heading: number, pitch?: number) => void;
   setLocked: (v: boolean) => void;
   setQuality: (q: Quality) => void;
   setSound: (on: boolean) => void;
@@ -50,7 +50,7 @@ export const useWorld = create<WorldState>((set) => ({
   sound: read("flohub-sound") !== "off",
   mapOpen: false,
   setFocused: (focused) => set((s) => (s.focused === focused ? s : { focused })),
-  goTo: (x, z, heading) => set({ teleport: { x, z, heading } }),
+  goTo: (x, z, heading, pitch) => set({ teleport: { x, z, heading, pitch } }),
   setLocked: (locked) => set({ locked }),
   setQuality: (quality) => {
     write("flohub-quality", quality);

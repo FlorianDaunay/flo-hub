@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { CATEGORY_COLOR } from "@/lib/meta";
 import { quadGeometry, signMaterial, uTime, type Quad } from "./batch";
 import { LOT_OFFSET, LOT_SIZE, MARKET_ANGLE, MARKET_LENGTH, PLAZA_RADIUS, STREET_HALF_WIDTH, hash01, streetPoint, type CityLayout } from "./layout";
-import { barsMesh, buildingMaterial, glowMesh, type Bar, type Glow } from "./materials";
+import { barsMesh, buildingMesh, detailMesh, glowMesh, type Bar, type Glow, type Part } from "./materials";
 import { STREET_COLOR } from "./Signs";
 import { flash } from "./Atmosphere";
 import { glowTexture } from "./textures";
@@ -244,30 +244,42 @@ function Skyline({ layout, atlas, lotsAtlasKeys }: { layout: CityLayout; atlas: 
     return out;
   }, [layout]);
 
-  const { bodies, neon } = useMemo(() => {
-    const bodies = new THREE.InstancedMesh(box, buildingMaterial(), items.length * 2);
-    const m = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
+  const meshes = useMemo(() => {
+    const boxes: Part[] = [];
+    const cyls: Part[] = [];
+    const dBox: Part[] = [];
+    const dCyl: Part[] = [];
     const bars: Bar[] = [];
     const tint = ["#ff2bd6", "#36c8ff", "#ff8a3d", "#7c5cff"];
-    items.forEach((b, i) => {
-      bodies.setMatrixAt(i * 2, m.compose(new THREE.Vector3(b.x, b.h / 2, b.z), q, new THREE.Vector3(b.w, b.h, b.d)));
-      // Setback top on tall towers (scaled to nothing on the others).
-      const top = b.h > 50 ? 1 : 0;
-      bodies.setMatrixAt(i * 2 + 1, m.compose(new THREE.Vector3(b.x, b.h + 5 * top, b.z), q, new THREE.Vector3(b.w * 0.6 * top, 10 * top, b.d * 0.6 * top)));
+    items.forEach((b) => {
       const k = hash01(`${b.x}${b.z}`);
-      if (b.h > 70) bars.push({ p: [b.x, b.h + 10.6, b.z], s: [0.5, 0.5, 0.5], color: "#ff2a3a", boost: 5 });
-      if (k < 0.3) {
+      const seed = k * 100;
+      const round = k > 0.86 && b.h > 40;
+      if (round) cyls.push({ p: [b.x, b.h / 2, b.z], s: [Math.min(b.w, b.d), b.h, Math.min(b.w, b.d)], seed });
+      else boxes.push({ p: [b.x, b.h / 2, b.z], s: [b.w, b.h, b.d], seed });
+      // Tiers on the tall ones, a cornice on each.
+      if (b.h > 45 && !round) {
+        boxes.push({ p: [b.x, b.h + 6, b.z], s: [b.w * 0.7, 12, b.d * 0.7], seed });
+        dBox.push({ p: [b.x, b.h + 0.2, b.z], s: [b.w + 0.5, 0.4, b.d + 0.5], color: "#23262e" });
+        if (b.h > 80) boxes.push({ p: [b.x, b.h + 16, b.z], s: [b.w * 0.42, 8, b.d * 0.42], seed });
+      } else if (!round) dBox.push({ p: [b.x, b.h + 0.2, b.z], s: [b.w + 0.4, 0.4, b.d + 0.4], color: "#23262e" });
+      const roofY = b.h > 80 && !round ? b.h + 20 : b.h > 45 && !round ? b.h + 12 : b.h;
+      // Rooftop: water tank or AC block, masts with warning lights.
+      if (k < 0.45) dCyl.push({ p: [b.x + b.w * 0.15, roofY + 1.6, b.z - b.d * 0.15], s: [2.4, 3.2, 2.4], color: "#3d3833" });
+      else dBox.push({ p: [b.x - b.w * 0.1, roofY + 0.8, b.z + b.d * 0.1], s: [b.w * 0.35, 1.6, b.d * 0.3], color: "#41454e" });
+      if (b.h > 70) {
+        dBox.push({ p: [b.x, roofY + 6, b.z], s: [0.25, 12, 0.25], color: "#3b3f4a" });
+        bars.push({ p: [b.x, roofY + 12.2, b.z], s: [0.6, 0.6, 0.6], color: "#ff2a3a", boost: 5 });
+      }
+      if (k < 0.3 && !round) {
         const c = tint[Math.floor(k * 13) % tint.length];
-        for (const s of [-1, 1]) {
-          bars.push({ p: [b.x, b.h, b.z + (s * b.d) / 2], s: [b.w, 0.18, 0.18], color: c, boost: 2.4 });
-          bars.push({ p: [b.x + (s * b.w) / 2, b.h, b.z], s: [0.18, 0.18, b.d], color: c, boost: 2.4 });
+        for (const sd of [-1, 1]) {
+          bars.push({ p: [b.x, b.h + 0.45, b.z + (sd * (b.d + 0.5)) / 2], s: [b.w + 0.5, 0.15, 0.15], color: c, boost: 2.4 });
+          bars.push({ p: [b.x + (sd * (b.w + 0.5)) / 2, b.h + 0.45, b.z], s: [0.15, 0.15, b.d + 0.5], color: c, boost: 2.4 });
         }
       }
     });
-    bodies.instanceMatrix.needsUpdate = true;
-    bodies.computeBoundingSphere();
-    return { bodies, neon: barsMesh(bars) };
+    return [buildingMesh(boxes), buildingMesh(cyls, new THREE.CylinderGeometry(0.5, 0.5, 1, 32)), detailMesh(dBox), detailMesh(dCyl, new THREE.CylinderGeometry(0.5, 0.5, 1, 12)), barsMesh(bars)];
   }, [items]);
 
   // Giant holographic billboards: project screenshots on tall blocks, facing the centre.
@@ -294,8 +306,9 @@ function Skyline({ layout, atlas, lotsAtlasKeys }: { layout: CityLayout; atlas: 
 
   return (
     <>
-      <primitive object={bodies} />
-      <primitive object={neon} />
+      {meshes.map((o) => (
+        <primitive key={o.uuid} object={o} />
+      ))}
       {ads && <primitive object={ads} />}
     </>
   );
@@ -303,8 +316,9 @@ function Skyline({ layout, atlas, lotsAtlasKeys }: { layout: CityLayout; atlas: 
 
 /** Night market alley: stalls, awnings, lanterns and the buildings that frame it. */
 function Market() {
-  const { blocks, neon, pools } = useMemo(() => {
-    const list: { p: [number, number, number]; s: [number, number, number]; rotY: number }[] = [];
+  const { blocks, stallMesh, neon, pools } = useMemo(() => {
+    const list: Part[] = [];
+    const stalls: Part[] = [];
     const bars: Bar[] = [];
     const glows: Glow[] = [];
     const rot = -MARKET_ANGLE;
@@ -313,11 +327,16 @@ function Market() {
       for (const s of [-1, 1]) {
         const k = hash01(`mk${a}${s}`);
         const [bx, bz] = streetPoint(MARKET_ANGLE, a, s * LOT_OFFSET);
-        list.push({ p: [bx, (20 + k * 25) / 2, bz], s: [LOT_SIZE, 20 + k * 25, 11], rotY: rot });
-        // Stall: counter + roof slab, an awning edge in neon.
+        list.push({ p: [bx, (20 + k * 25) / 2, bz], s: [LOT_SIZE, 20 + k * 25, 11], rotY: rot, seed: k * 100 });
+        // Stall: counter, posts, sloped awning; an awning edge in neon.
         const [sx, sz] = streetPoint(MARKET_ANGLE, a, s * (STREET_HALF_WIDTH + 1.3));
-        list.push({ p: [sx, 0.55, sz], s: [1.4, 1.1, 4], rotY: rot });
-        list.push({ p: [sx, 2.6, sz], s: [2.4, 0.12, 4.6], rotY: rot });
+        stalls.push({ p: [sx, 0.55, sz], s: [1.4, 1.1, 4], rotY: rot, color: "#3a2f2a" });
+        stalls.push({ p: [sx, 1.15, sz], s: [1.6, 0.08, 4.2], rotY: rot, color: "#5a4a3c" });
+        for (const e of [-1.9, 1.9]) {
+          const [qx, qz] = streetPoint(MARKET_ANGLE, a + e, s * (STREET_HALF_WIDTH + 0.4));
+          stalls.push({ p: [qx, 1.3, qz], s: [0.08, 2.6, 0.08], rotY: rot, color: "#2a2d36" });
+        }
+        stalls.push({ p: [sx, 2.7, sz], s: [2.6, 0.1, 4.8], rot: [0, rot, s * 0.22], color: ["#6b2230", "#22465e", "#5e4a1e"][Math.floor(k * 3)] });
         const [ex, ez] = streetPoint(MARKET_ANGLE, a, s * (STREET_HALF_WIDTH + 0.1));
         const c = colors[Math.floor(k * 4)];
         bars.push({ p: [ex, 2.55, ez], s: [0.06, 0.06, 4.6], rotY: rot, color: c, boost: 3 });
@@ -342,18 +361,12 @@ function Market() {
     }
     const [tx, tz] = streetPoint(MARKET_ANGLE, end - 4, 0);
     glows.push({ x: tx, z: tz, w: 12, l: 10, rotY: 0, color: "#ff2a3a", strength: 0.22 });
-    const blocks = new THREE.InstancedMesh(box, buildingMaterial(), list.length);
-    const m = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
-    const up = new THREE.Vector3(0, 1, 0);
-    list.forEach((b, i) => blocks.setMatrixAt(i, m.compose(new THREE.Vector3(...b.p), q.setFromAxisAngle(up, b.rotY), new THREE.Vector3(...b.s))));
-    blocks.instanceMatrix.needsUpdate = true;
-    blocks.computeBoundingSphere();
-    return { blocks, neon: barsMesh(bars), pools: glowMesh(glows, glowTexture(), 0.07) };
+    return { blocks: buildingMesh(list), stallMesh: detailMesh(stalls), neon: barsMesh(bars), pools: glowMesh(glows, glowTexture(), 0.07) };
   }, []);
   return (
     <>
       <primitive object={blocks} />
+      <primitive object={stallMesh} />
       <primitive object={neon} />
       <primitive object={pools} />
     </>
